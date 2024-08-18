@@ -39,7 +39,7 @@ class Clients(models.Model):
 
     comment = models.TextField(
         max_length=100,
-        verbose_name="Сообщение",
+        verbose_name="Комментарий",
         null=True,
         blank=True
     )
