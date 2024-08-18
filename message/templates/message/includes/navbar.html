@@ -5,8 +5,14 @@
         <div class="col-3"></div>
         <div class="col-6">
             <nav class="ms-5">
-                <a class="p-2 btn btn-outline-primary" href="/">Сообщения</a>
-                <a class="p-2 btn btn-outline-primary" style="float: right;" href="#">Клиенты</a>
+                <a class="p-2 btn btn-outline-dark" href="/">Сообщения</a>
+                <a class="p-2 btn btn-outline-dark" href="{% url 'message:client_view' %}">Клиенты</a>
+                {% if user.is_authenticated %}
+                <a class="p-2 btn btn-danger" style="float: right;" href="/">Выход</a>
+                {% else %}
+                <a class="p-2 btn btn-success" style="float: right;" href="#">Регистрация</a>
+                <a class="p-2 btn btn-success" style="float: right;" href="#">Вход</a>
+                {% endif %}
             </nav>
         </div>
     </div>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from message.models import Message, Clients, MailingList, Attempt
+from message.models import Message, Client, MailingList, Attempt
 
 
 @admin.register(Message)
@@ -12,7 +12,7 @@ class MessageAdmin(admin.ModelAdmin):
     search_fields = ('title_letter',)
 
 
-@admin.register(Clients)
+@admin.register(Client)
 class ClientsAdmin(admin.ModelAdmin):
     """
     Админка модели Clients

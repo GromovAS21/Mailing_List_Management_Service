@@ -58,7 +58,7 @@ DATABASES = {
         "USER": "postgres",
         "HOST": "localhost",
         "PORT": "5433",
-        "PASSWORD": "",
+        "PASSWORD": "Crusis59qweRTYseed1411",
     }
 }
 
@@ -92,3 +92,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_LOGIN_URL = '/'
+AUTH_LOGOUT_URL = '/'

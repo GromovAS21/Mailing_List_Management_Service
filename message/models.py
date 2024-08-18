@@ -7,10 +7,10 @@ class Message(models.Model):
     """
     title_letter = models.CharField(
         max_length=100,
-        verbose_name="Тема письма",
+        verbose_name="Тема",
     )
     body_letter = models.TextField(
-        verbose_name="Содержание письма",
+        verbose_name="Сообщение",
         null=True,
         blank=True
     )
@@ -23,14 +23,13 @@ class Message(models.Model):
         return self.title_letter
 
 
-class Clients(models.Model):
+class Client(models.Model):
     """
     Модель клиента для рассылки писем (кому отправляется письмо)
     """
     name = models.CharField(
         max_length=250,
         verbose_name="Ф.И.О",
-        help_text="Введите Ф.И.О. получателя"
     )
     email = models.EmailField(
         verbose_name="Email",
@@ -73,7 +72,7 @@ class MailingList(models.Model):
         related_name="messages"
     )
     clients = models.ManyToManyField(
-        Clients,
+        Client,
         verbose_name="Клиенты"
     )
     periodicity = models.CharField(
