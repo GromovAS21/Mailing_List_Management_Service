@@ -14,7 +14,6 @@
                 </div>
                 <div class="card-body">
                     <p>{{ message.body_letter}}</p>
-                    <a class="btn btn-primary" href="#" role="button">Создать рассылку</a>
                     <a class="btn btn-primary" href="{% url 'message:message_update' message.pk %}" role="button">Изменить сообщение</a>
                     <a class="btn btn-danger" href="{% url 'message:message_delete' message.pk %}" role="button">Удалить сообщение</a>
                     <br>

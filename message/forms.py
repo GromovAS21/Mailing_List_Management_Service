@@ -1,6 +1,6 @@
 from django.forms import ModelForm, BooleanField, TextInput
 
-from message.models import Message, Client
+from message.models import Message, Client, MailingList
 
 
 class StyleFormMixin:
@@ -40,3 +40,12 @@ class ClientForm(StyleFormMixin, ModelForm):
             'email': TextInput(attrs={'placeholder': 'Введите Email'}),
             'comment': TextInput(attrs={'placeholder': 'Введите текст'}),
         }
+
+
+class MailingListForm(StyleFormMixin, ModelForm):
+    """
+    Форма для создания рассылки сообщения
+    """
+    class Meta:
+        model = MailingList
+        fields = ('message', 'clients', 'periodicity',)

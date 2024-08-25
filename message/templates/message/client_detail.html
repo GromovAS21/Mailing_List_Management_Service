@@ -13,8 +13,10 @@
                     <h2 class="my-0 font-weight-normal">{{ client.name }}</h2>
                 </div>
                 <div class="card-body">
-                    <p>email: {{ client.email }}</p>
-                    <p>Комментарий: {{ client.comment }}</p>
+                    <h4>Email:</h4>
+                    <p>{{ client.email }}</p>
+                    <h4>Комментарий:</h4>
+                    <p>{{ client.comment }}</p>
                     <a class="btn btn-primary" href="{% url 'message:client_update' client.pk %}" role="button">Изменить</a>
                     <a class="btn btn-danger" href="{% url 'message:client_delete' client.pk %}" role="button">Удалить</a>
                     <br>

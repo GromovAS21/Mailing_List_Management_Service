@@ -1,0 +1,40 @@
+{% extends 'message/base.html' %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">{{ mailinglist }}</h1>
+</div>
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <h4>Сообщение:</h4>
+                    <p>{{ mailinglist.message }}
+                    <p>
+                    <h4>Адреса рассылок:</h4>
+                    <p>
+                        {% for client in clients %}
+                        {{ client }}
+                        <br>
+                        {% endfor %}
+                    </p>
+                    <h4>Периодичность рассылки:</h4>
+                    <p>{{ mailinglist.periodicity }}
+                    <p>
+                    <h4>Статус рассылки:</h4>
+                    <p>{{ mailinglist.status }}</p>
+
+                    <a class="btn btn-primary" href="{% url 'message:mailinglist_update' object.pk %}" role="button">Изменить рассылку</a>
+                    <a class="btn btn-danger" href="{% url 'message:mailinglist_delete' object.pk %}" role="button">Удалить рассылку</a>
+                    <br>
+                    <br>
+                    <a class="btn btn-outline-primary" href="{% url 'message:mailinglist_view' %}" role="button">Назад</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}

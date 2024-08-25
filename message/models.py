@@ -56,14 +56,14 @@ class MailingList(models.Model):
     Параметры рассылки
     """
     PERIODICITY_CHOICES = [
-        ('DAILY', 'Раз в день'),
-        ('WEEKLY', 'Раз в неделю'),
-        ('MONTHLY', 'Раз в месяц')
+        ('Раз в день', 'Раз в день'),
+        ('Раз в неделю', 'Раз в неделю'),
+        ('Раз в месяц', 'Раз в месяц')
     ]
     STATUS_CHOICES = [
-        ('COMPLETED', 'Завершена'),
-        ('CREATED', 'Создана'),
-        ('RUNNING', 'Запущена')
+        ('Завершена', 'Завершена'),
+        ('Создана', 'Создана'),
+        ('Запущена', 'Запущена')
     ]
     message = models.ForeignKey(
         Message,
@@ -73,18 +73,19 @@ class MailingList(models.Model):
     )
     clients = models.ManyToManyField(
         Client,
-        verbose_name="Клиенты"
+        verbose_name="Клиенты",
     )
     periodicity = models.CharField(
         max_length=50,
         choices=PERIODICITY_CHOICES,
         verbose_name="Периодичность рассылки",
-        default="DAILY"
+        default='Раз в день'
     )
     status = models.CharField(
+        verbose_name='Статус',
         max_length=50,
         choices=STATUS_CHOICES,
-        default="CREATED",
+        default='Создана',
     )
 
     class Meta:
@@ -92,7 +93,7 @@ class MailingList(models.Model):
         verbose_name_plural = "Рассылки"
 
     def __str__(self):
-        return f"Рассылка N {self.pk}"
+        return f'Рассылка "{self.message}"'
 
 
 class Attempt(models.Model):
@@ -100,8 +101,8 @@ class Attempt(models.Model):
     Попытка отправки рассылки
     """
     STATUS_CHOICES = [
-        ('SUCCESS', 'Успешно'),
-        ('FAILURE', 'Не успешно'),
+        ('Успешно', 'Успешно'),
+        ('Не успешно', 'Не успешно'),
     ]
     mailing_list = models.ForeignKey(
         MailingList,
@@ -111,15 +112,19 @@ class Attempt(models.Model):
     )
     date_time_last_attempt = models.DateTimeField(
         verbose_name="Дата и время последнего попытки отправки",
+        auto_now_add=True,
     )
     status = models.CharField(
         max_length=50,
         choices=STATUS_CHOICES,
         verbose_name="Статус попытки",
-        default='FAILURE'
+        default='Не успешно'
     )
     mail_server_response = models.TextField(
-        verbose_name="Ответ почтового сервера"
+        verbose_name="Ответ почтового сервера",
+        blank=True,
+        null=True,
+
     )
 
     class Meta:
