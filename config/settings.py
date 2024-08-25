@@ -1,11 +1,15 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-mqvw6-x^t%nu*6ivk_0)riosp_ityeht^z6a5&(4t2hm9vcksv"
+load_dotenv((BASE_DIR / '.env'))
 
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+DEBUG = os.getenv('DEBUG') == "True"
 
 ALLOWED_HOSTS = []
 
@@ -54,11 +58,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "coursework_6",
-        "USER": "postgres",
-        "HOST": "localhost",
-        "PORT": "5433",
-        "PASSWORD": "Crusis59qweRTYseed1411",
+        "NAME": os.getenv('NAME'),
+        "USER": os.getenv('USER_NAME'),
+        "HOST": os.getenv('HOST'),
+        "PORT": os.getenv('PORT'),
+        "PASSWORD": os.getenv('PASSWORD'),
     }
 }
 
@@ -95,3 +99,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_LOGIN_URL = '/'
 AUTH_LOGOUT_URL = '/'
+
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'False'
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL') == 'True'
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
