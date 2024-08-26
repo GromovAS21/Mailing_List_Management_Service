@@ -4,7 +4,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from message.forms import MessageForm, ClientForm, MailingListForm
 from message.models import Message, Client, MailingList, Attempt
-from message.servises import sending_a_message
+from message.servises import sending_a_message, sending_mail_every_day, sending_mail_every_week, \
+    sending_mail_every_month
 
 
 # Create your views here.
@@ -153,15 +154,20 @@ def toggle_status(request, pk):
     """
     Метод изменения статуса рассылки
     """
-    mailingList_item = get_object_or_404(MailingList, pk=pk)
-    if mailingList_item.status == 'Запущена':
-        mailingList_item.status = 'Завершена'
+    object = get_object_or_404(MailingList, pk=pk)
+    if object.status == 'Запущена':
+        object.status = 'Завершена'
     else:
-        mailingList_item.status = 'Запущена'
-        clients = mailingList_item.clients.all()
+        object.status = 'Запущена'
+        clients = object.clients.all()
         for client in clients:
-            sending_a_message(mailingList_item, client)
-    mailingList_item.save(update_fields=['status'])
+            if object.periodicity == 'Раз в день':
+                sending_mail_every_day(object, client)
+            elif object.periodicity == 'Раз в неделю':
+                sending_mail_every_week(object, client)
+            elif object.periodicity == 'Раз в месяц':
+                sending_mail_every_month(object, client)
+    object.save(update_fields=['status'])
     return redirect(reverse('message:mailinglist_view'))
 
 
