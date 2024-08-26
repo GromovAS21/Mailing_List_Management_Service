@@ -26,7 +26,7 @@ class MailingListAdmin(admin.ModelAdmin):
     """
     Админка модели MailingList
     """
-    list_display = ('id', 'message', 'periodicity', 'status')
+    list_display = ('id', 'message', 'periodicity', 'status', 'date_and_time_of_sending')
     list_filter = ('periodicity', 'status')
     search_fields = ('message',)
 
@@ -36,7 +36,7 @@ class AttemptAdmin(admin.ModelAdmin):
     """
     Админка модели Attempt
     """
-    list_display = ('mailing_list', 'status', 'mail_server_response')
+    list_display = ('id', 'mailing_list', 'date_time_last_attempt', 'status', 'mail_server_response')
     list_filter = ('status',)
     search_fields = ('mailing_list', 'mail_server_response')
 

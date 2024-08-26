@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Message(models.Model):
@@ -65,6 +66,12 @@ class MailingList(models.Model):
         ('Создана', 'Создана'),
         ('Запущена', 'Запущена')
     ]
+    date_and_time_of_sending = models.DateTimeField(
+        verbose_name="Дата и время первой отправки отправки",
+        default=timezone.now,
+        null=True,
+        blank=True,
+    )
     message = models.ForeignKey(
         Message,
         on_delete=models.CASCADE,

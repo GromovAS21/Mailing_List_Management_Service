@@ -1,4 +1,4 @@
-from django.forms import ModelForm, BooleanField, TextInput
+from django.forms import ModelForm, BooleanField, TextInput, DateTimeField
 
 from message.models import Message, Client, MailingList
 
@@ -12,6 +12,8 @@ class StyleFormMixin:
         for field_name, field in self.fields.items():
             if isinstance(field, BooleanField):
                 field.widget.attrs['class'] = 'form-check-input'
+            elif isinstance(field, DateTimeField):
+                field.widget.attrs['class'] = 'form-datetime-input'
             else:
                 field.widget.attrs['class'] = 'form-control'
 
@@ -48,4 +50,4 @@ class MailingListForm(StyleFormMixin, ModelForm):
     """
     class Meta:
         model = MailingList
-        fields = ('message', 'clients', 'periodicity',)
+        fields = ('message', 'clients', 'date_and_time_of_sending', 'periodicity',)

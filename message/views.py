@@ -1,8 +1,10 @@
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from message.forms import MessageForm, ClientForm, MailingListForm
 from message.models import Message, Client, MailingList, Attempt
+from message.servises import sending_a_message
 
 
 # Create your views here.
@@ -147,7 +149,20 @@ class MailingListDeleteView(DeleteView):
     success_url = reverse_lazy('message:mailinglist_view')
 
 
-
+def toggle_status(request, pk):
+    """
+    Метод изменения статуса рассылки
+    """
+    mailingList_item = get_object_or_404(MailingList, pk=pk)
+    if mailingList_item.status == 'Запущена':
+        mailingList_item.status = 'Завершена'
+    else:
+        mailingList_item.status = 'Запущена'
+        clients = mailingList_item.clients.all()
+        for client in clients:
+            sending_a_message(mailingList_item, client)
+    mailingList_item.save(update_fields=['status'])
+    return redirect(reverse('message:mailinglist_view'))
 
 
 

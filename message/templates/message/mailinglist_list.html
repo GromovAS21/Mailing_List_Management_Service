@@ -23,9 +23,15 @@
                             </div>
                             <div class="col-5">
                                 <div class="d-grid gap-2">
+                                    {% if mailinglist.status == 'Запущена' %}
+                                        <a class="btn btn-lg btn-block btn-outline-danger form-control"
+                                       style="float: right;" href="{% url 'message:toggle_status' mailinglist.pk %}"
+                                       role="button">Завершить</a>
+                                    {% else %}
                                     <a class="btn btn-lg btn-block btn-outline-success form-control"
-                                       style="float: right;" href="#"
+                                       style="float: right;" href="{% url 'message:toggle_status' mailinglist.pk %}"
                                        role="button">Запустить</a>
+                                    {% endif %}
                                     <a class="btn btn-lg btn-block btn-outline-primary form-control"
                                        style="float: right;" href="{% url 'message:mailinglist_detail' mailinglist.pk %}"
                                        role="button">Инфо</a>

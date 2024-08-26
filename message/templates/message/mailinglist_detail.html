@@ -26,11 +26,21 @@
                     <h4>Статус рассылки:</h4>
                     <p>{{ mailinglist.status }}</p>
 
-                    <a class="btn btn-primary" href="{% url 'message:mailinglist_update' object.pk %}" role="button">Изменить рассылку</a>
-                    <a class="btn btn-danger" href="{% url 'message:mailinglist_delete' object.pk %}" role="button">Удалить рассылку</a>
+                    {% if mailinglist.status == 'Запущена' %}
+                    <a class="btn btn-danger" href="{% url 'message:toggle_status' mailinglist.pk %}"
+                       role="button">Завершить</a>
+                    {% else %}
+                    <a class="btn btn-success" href="{% url 'message:toggle_status' mailinglist.pk %}"
+                       role="button">Запустить</a>
+                    {% endif %}
+                    <a class="btn btn-primary" href="{% url 'message:mailinglist_update' object.pk %}" role="button">Изменить
+                        рассылку</a>
+                    <a class="btn btn-danger" href="{% url 'message:mailinglist_delete' object.pk %}" role="button">Удалить
+                        рассылку</a>
                     <br>
                     <br>
-                    <a class="btn btn-outline-primary" href="{% url 'message:mailinglist_view' %}" role="button">Назад</a>
+                    <a class="btn btn-outline-primary" href="{% url 'message:mailinglist_view' %}"
+                       role="button">Назад</a>
                 </div>
             </div>
         </div>
