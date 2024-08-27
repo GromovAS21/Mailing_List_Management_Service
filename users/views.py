@@ -3,10 +3,10 @@ import secrets
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserUpdateForm
 from users.models import User
 
 
@@ -45,3 +45,18 @@ def email_verification(request, token):
     user.save(update_fields=['is_active'])
     return redirect(reverse('users:login'))
 
+
+class UserDetailView(DetailView):
+    """
+    Вывод информации о пользователе
+    """
+    model = User
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    success_url = reverse_lazy('message:message_list')
+
+    def get_success_url(self):
+        return reverse('users:user_detail', kwargs={'pk': self.object.pk})

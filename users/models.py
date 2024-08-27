@@ -39,3 +39,17 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+    def __srt__(self):
+        return self.email
+
+    def delete(self, *args, **kwargs):
+        """
+        Удаляет изображение аватара при удалении пользователя
+        """
+        self.avatar.delete()
+        super(User, self).delete(*args, **kwargs)
