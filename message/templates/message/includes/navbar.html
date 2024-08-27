@@ -1,20 +1,21 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-        <div class="col-3">
-            <h5 class="my-0 mr-md-auto font-weight-normal">ОТПРАВЛЯЙ-КА</h5>
-        </div>
-        <div class="col-3"></div>
-        <div class="col-6">
-            <nav class="ms-5">
-                <a class="p-2 btn btn-outline-dark" href="/">Сообщения</a>
-                <a class="p-2 btn btn-outline-dark" href="{% url 'message:mailinglist_view' %}">Рассылки</a>
-                <a class="p-2 btn btn-outline-dark" href="{% url 'message:client_view' %}">Клиенты</a>
-                {% if user.is_authenticated %}
-                <a class="p-2 btn btn-danger" style="float: right;" href="/">Выход</a>
-                {% else %}
-                <a class="p-2 btn btn-success" style="float: right;" href="#">Регистрация</a>
-                <a class="p-2 btn btn-success" style="float: right;" href="#">Вход</a>
-                {% endif %}
-            </nav>
-        </div>
+    <div class="col-3">
+        <h5 class="my-0 mr-md-auto font-weight-normal">ОТПРАВЛЯЙ-КА</h5>
     </div>
+    <div class="col-3"></div>
+    <div class="col-6">
+        <nav class="ms-5">
+            <a class="p-2 btn btn-outline-dark" href="/">Сообщения</a>
+            <a class="p-2 btn btn-outline-dark" href="{% url 'message:mailinglist_view' %}">Рассылки</a>
+            <a class="p-2 btn btn-outline-dark" href="{% url 'message:client_view' %}">Клиенты</a>
+            {% if user.is_authenticated %}
+            <a class="p-2 btn btn-danger" style="float: right;" href="{% url 'users:logout' %}">Выход</a>
+            {% else %}
+            <a class="p-2 btn btn-success " style="float: right; margin-left:5px;" href="{% url 'users:login' %}">Вход</a>
+            <a class="p-2 btn btn-success" style="float: right;" href="{% url 'users:register' %}">Регистрация</a>
+
+            {% endif %}
+        </nav>
+    </div>
+</div>
 </div>
