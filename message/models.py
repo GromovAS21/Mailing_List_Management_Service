@@ -94,6 +94,11 @@ class MailingList(models.Model):
         choices=STATUS_CHOICES,
         default='Создана',
     )
+    next_date = models.DateTimeField(
+        verbose_name="Дата и время следующей отправки отправки",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "Рассылка"

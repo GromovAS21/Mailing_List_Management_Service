@@ -1,11 +1,12 @@
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from message.forms import MessageForm, ClientForm, MailingListForm
-from message.models import Message, Client, MailingList, Attempt
-from message.servises import sending_a_message, sending_mail_every_day, sending_mail_every_week, \
-    sending_mail_every_month
+from message.models import Message, Client, MailingList
+from message.services import periodicity_sending
 
 
 # Create your views here.
@@ -112,6 +113,12 @@ class MailingListCreateView(CreateView):
     model = MailingList
     form_class = MailingListForm
 
+    def form_valid(self, form):
+        mailing = form.save()
+        mailing.next_date = mailing.date_and_time_of_sending
+        mailing.save(update_fields=['next_date'])
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse('message:mailinglist_detail', kwargs={'pk': self.object.pk})
 
@@ -138,6 +145,13 @@ class MailingListUpdateView(UpdateView):
     model = MailingList
     form_class = MailingListForm
 
+    def form_valid(self, form):
+        mailing = form.save()
+        mailing.next_date = mailing.date_and_time_of_sending
+        mailing.status = "Запущена"
+        mailing.save(update_fields=['next_date', 'status'])
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse('message:mailinglist_detail', kwargs={'pk': self.object.pk})
 
@@ -154,22 +168,10 @@ def toggle_status(request, pk):
     """
     Метод изменения статуса рассылки
     """
-    object = get_object_or_404(MailingList, pk=pk)
-    if object.status == 'Запущена':
-        object.status = 'Завершена'
-    else:
-        object.status = 'Запущена'
-        clients = object.clients.all()
-        for client in clients:
-            if object.periodicity == 'Раз в день':
-                sending_mail_every_day(object, client)
-            elif object.periodicity == 'Раз в неделю':
-                sending_mail_every_week(object, client)
-            elif object.periodicity == 'Раз в месяц':
-                sending_mail_every_month(object, client)
-    object.save(update_fields=['status'])
+    mailing = get_object_or_404(MailingList, pk=pk)
+    if mailing.status == 'Запущена':
+        mailing.status = 'Завершена'
+    elif mailing.status == 'Создана':
+        mailing.status = 'Запущена'
+    mailing.save(update_fields=['status',])
     return redirect(reverse('message:mailinglist_view'))
-
-
-
-

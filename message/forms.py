@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm, BooleanField, TextInput, DateTimeField
 
 from message.models import Message, Client, MailingList
@@ -51,3 +54,12 @@ class MailingListForm(StyleFormMixin, ModelForm):
     class Meta:
         model = MailingList
         fields = ('message', 'clients', 'date_and_time_of_sending', 'periodicity',)
+
+    def clean_date_and_time_of_sending(self):
+        """
+        Проверяет, что дата и время рассылки не меньше текущего.
+        """
+        date_and_time = self.cleaned_data['date_and_time_of_sending']
+        if date_and_time.timestamp() < datetime.now().timestamp():
+            raise ValidationError('Выбранная дата и время меньше текущего')
+        return date_and_time

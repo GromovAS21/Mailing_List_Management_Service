@@ -13,27 +13,54 @@
         </p>
 
         <div class="row">
+            {% if not object_list %}
+            <div class="col-12">
+                <h1 class="text-body-secondary">
+                    Рассылки еще не созданы
+                </h1>
+            </div>
+            {% endif %}
             {% for mailinglist in object_list %}
+
             <div class="col-6">
                 <div class="card mb-4 box-shadow">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-7 d-flex align-items-center justify-content-center">
-                                <h4 class="my-0 font-weight-normal">{{ mailinglist }}</h4>
+                                <h4 class="my-0 font-weight-normal">
+
+                                    {% if mailinglist.status == 'Завершена' %}
+                                    <span class="text-muted">
+                                        {{ mailinglist }}
+                                        <br>
+                                        (Завершена)
+                                    </span>
+                                    {% else %}
+                                    {{ mailinglist }}
+                                    {% endif %}
+                                </h4>
+
+
                             </div>
                             <div class="col-5">
                                 <div class="d-grid gap-2">
                                     {% if mailinglist.status == 'Запущена' %}
-                                        <a class="btn btn-lg btn-block btn-outline-danger form-control"
+                                    <a class="btn btn-lg btn-block btn-outline-danger form-control"
                                        style="float: right;" href="{% url 'message:toggle_status' mailinglist.pk %}"
                                        role="button">Завершить</a>
+                                    {% elif mailinglist.status == 'Завершена' %}
+                                    <a class="btn btn-lg btn-block btn-outline-success form-control"
+                                       style="float: right;"
+                                       href="{% url 'message:mailinglist_update' mailinglist.pk %}"
+                                       role="button">Запустить заново</a>
                                     {% else %}
                                     <a class="btn btn-lg btn-block btn-outline-success form-control"
                                        style="float: right;" href="{% url 'message:toggle_status' mailinglist.pk %}"
                                        role="button">Запустить</a>
                                     {% endif %}
                                     <a class="btn btn-lg btn-block btn-outline-primary form-control"
-                                       style="float: right;" href="{% url 'message:mailinglist_detail' mailinglist.pk %}"
+                                       style="float: right;"
+                                       href="{% url 'message:mailinglist_detail' mailinglist.pk %}"
                                        role="button">Инфо</a>
                                 </div>
                             </div>

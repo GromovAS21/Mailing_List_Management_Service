@@ -21,20 +21,23 @@
                         {% endfor %}
                     </p>
                     <h4>Периодичность рассылки:</h4>
-                    <p>{{ mailinglist.periodicity }}
-                    <p>
+                    <p>{{ mailinglist.periodicity }}<p>
                     <h4>Статус рассылки:</h4>
                     <p>{{ mailinglist.status }}</p>
+
+                     <h4>Время первой отправки:</h4>
+                    <p>{{ mailinglist.date_and_time_of_sending }}</p>
 
                     {% if mailinglist.status == 'Запущена' %}
                     <a class="btn btn-danger" href="{% url 'message:toggle_status' mailinglist.pk %}"
                        role="button">Завершить</a>
-                    {% else %}
+                    {% elif mailinglist.status == 'Создана' %}
                     <a class="btn btn-success" href="{% url 'message:toggle_status' mailinglist.pk %}"
                        role="button">Запустить</a>
+                    {% else %}
+                    <a class="btn btn-success" href="{% url 'message:mailinglist_update' mailinglist.pk %}"
+                       role="button">Запустить заново</a>
                     {% endif %}
-                    <a class="btn btn-primary" href="{% url 'message:mailinglist_update' object.pk %}" role="button">Изменить
-                        рассылку</a>
                     <a class="btn btn-danger" href="{% url 'message:mailinglist_delete' object.pk %}" role="button">Удалить
                         рассылку</a>
                     <br>

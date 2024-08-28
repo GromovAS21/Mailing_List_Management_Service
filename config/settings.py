@@ -82,10 +82,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CRONJOBS = [
-    ('*/1 * * * *', 'message.cron.sending_mail_every_day'),
-    ('*/5 * * * *', 'message.cron.sending_mail_every_week'),
-    ('*/10 * * * *', 'message.cron.sending_mail_every_month'),
-
+    ('*/1 * * * *', 'message.services.periodicity_sending'),
    ]
 
 LANGUAGE_CODE = "ru-us"
