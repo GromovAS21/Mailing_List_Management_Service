@@ -3,7 +3,7 @@ import secrets
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm, UserUpdateForm
@@ -60,3 +60,11 @@ class UserUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('users:user_detail', kwargs={'pk': self.object.pk})
+
+
+class UserDeleteView(DeleteView):
+    """
+    Удаление пользователя
+    """
+    model = User
+    success_url = reverse_lazy('message:message_list')
