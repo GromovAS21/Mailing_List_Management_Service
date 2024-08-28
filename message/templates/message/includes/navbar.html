@@ -3,7 +3,9 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">ОТПРАВЛЯЙ-КА</h5>
     </div>
     <div class="col-3">
+        {% if user.is_authenticated %}
         Вы вошли как: {{ user }}
+        {% endif %}
     </div>
     <div class="col-6">
         <nav class="ms-5">

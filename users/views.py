@@ -1,7 +1,8 @@
 import secrets
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
@@ -46,14 +47,14 @@ def email_verification(request, token):
     return redirect(reverse('users:login'))
 
 
-class UserDetailView(DetailView):
+class UserDetailView(LoginRequiredMixin, DetailView):
     """
     Вывод информации о пользователе
     """
     model = User
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     success_url = reverse_lazy('message:message_list')
@@ -62,7 +63,7 @@ class UserUpdateView(UpdateView):
         return reverse('users:user_detail', kwargs={'pk': self.object.pk})
 
 
-class UserDeleteView(DeleteView):
+class UserDeleteView(LoginRequiredMixin, DeleteView):
     """
     Удаление пользователя
     """

@@ -37,6 +37,7 @@ class User(AbstractUser):
         null=True
     )
 
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 

@@ -1,5 +1,5 @@
-from datetime import datetime
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -8,8 +8,6 @@ from message.forms import MessageForm, ClientForm, MailingListForm, MailingUpdat
 from message.models import Message, Client, MailingList
 
 
-
-# Create your views here.
 class MessageListView(ListView):
     """
     Контроллер для отображения всех сообщений
@@ -17,14 +15,14 @@ class MessageListView(ListView):
     model = Message
 
 
-class MessageDetailView(DetailView):
+class MessageDetailView(LoginRequiredMixin, DetailView):
     """
     Контроллер для отображения конкретного сообщения
     """
     model = Message
 
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     """
     Контроллер для создания нового сообщения
     """
@@ -33,7 +31,7 @@ class MessageCreateView(CreateView):
     success_url = reverse_lazy('message:message_view')
 
 
-class MessageUpdateView(UpdateView):
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
     """
     Контроллер для редактирования сообщения
     """
@@ -45,7 +43,7 @@ class MessageUpdateView(UpdateView):
         return reverse('message:message_detail', kwargs={'pk': self.object.pk})
 
 
-class MessageDeleteView(DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     """
     Контроллер для удаления сообщения
     """
@@ -53,21 +51,21 @@ class MessageDeleteView(DeleteView):
     success_url = reverse_lazy('message:message_view')
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     """
     Контроллер для отображения всех клиентов
     """
     model = Client
 
 
-class ClientDetailView(DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     """
     Контроллер для отображения конкретного клиента
     """
     model = Client
 
 
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     """
     Контроллер для создания нового клиента
     """
@@ -79,7 +77,7 @@ class ClientCreateView(CreateView):
         return reverse('message:client_detail', kwargs={'pk': self.object.pk})
 
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     """
     Контроллер для редактирования клиента
     """
@@ -91,7 +89,7 @@ class ClientUpdateView(UpdateView):
         return reverse('message:client_detail', kwargs={'pk': self.object.pk})
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     """
     Контроллер для удаления клиента
     """
@@ -99,14 +97,14 @@ class ClientDeleteView(DeleteView):
     success_url = reverse_lazy('message:client_view')
 
 
-class MailingListListView(ListView):
+class MailingListListView(LoginRequiredMixin, ListView):
     """
     Контроллер для отображения всех рассылок
     """
     model = MailingList
 
 
-class MailingListCreateView(CreateView):
+class MailingListCreateView(LoginRequiredMixin, CreateView):
     """
     Контроллер для создания новой рассылки
     """
@@ -126,7 +124,7 @@ class MailingListCreateView(CreateView):
         return reverse('message:mailinglist_detail', kwargs={'pk': self.object.pk})
 
 
-class MailingListDetailView(DetailView):
+class MailingListDetailView(LoginRequiredMixin, DetailView):
     """
     Контроллер для отображения конкретной рассылки
     """
@@ -141,7 +139,7 @@ class MailingListDetailView(DetailView):
         return context_data
 
 
-class MailingListUpdateView(UpdateView):
+class MailingListUpdateView(LoginRequiredMixin, UpdateView):
     """
     Контроллер для создания новой рассылки
     """
@@ -162,7 +160,7 @@ class MailingListUpdateView(UpdateView):
         return reverse('message:mailinglist_detail', kwargs={'pk': self.object.pk})
 
 
-class MailingListDeleteView(DeleteView):
+class MailingListDeleteView(LoginRequiredMixin, DeleteView):
     """
     Контроллер для удаления рассылки
     """
@@ -170,6 +168,7 @@ class MailingListDeleteView(DeleteView):
     success_url = reverse_lazy('message:mailinglist_view')
 
 
+@login_required
 def toggle_status(request, pk):
     """
     Метод изменения статуса рассылки
@@ -183,6 +182,7 @@ def toggle_status(request, pk):
     return redirect(reverse('message:mailinglist_view'))
 
 
+@login_required
 def AttemptListView(request, pk):
     """
     Контроллер для отображения всех попыток отправки рассылки
