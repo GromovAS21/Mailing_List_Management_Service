@@ -114,6 +114,9 @@ class MailingListCreateView(CreateView):
     form_class = MailingListForm
 
     def form_valid(self, form):
+        """
+        Обновляет дату следующей отправки при сохранении изменений
+        """
         mailing = form.save()
         mailing.next_date = mailing.date_and_time_of_sending
         mailing.save(update_fields=['next_date'])
@@ -146,6 +149,9 @@ class MailingListUpdateView(UpdateView):
     form_class = MailingListForm
 
     def form_valid(self, form):
+        """
+        Обновляет дату следующей отправки и статус рассылки при сохранении изменений
+        """
         mailing = form.save()
         mailing.next_date = mailing.date_and_time_of_sending
         mailing.status = "Запущена"

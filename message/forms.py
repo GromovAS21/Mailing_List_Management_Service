@@ -63,3 +63,11 @@ class MailingListForm(StyleFormMixin, ModelForm):
         if date_and_time.timestamp() < datetime.now().timestamp():
             raise ValidationError('Выбранная дата и время меньше текущего')
         return date_and_time
+
+    def clean_message(self):
+        """
+        Проверяет наличие уже имеющейся рассылки с таким сообщением
+        """
+        new_message = self.cleaned_data['message']
+        if MailingList.objects.filter(message=new_message.pk).exists():
+            raise ValidationError('Рассылка с этим сообщением уже имеется')
