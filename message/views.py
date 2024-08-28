@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 from message.forms import MessageForm, ClientForm, MailingListForm, MailingUpdateForm
 from message.models import Message, Client, MailingList
@@ -13,6 +13,17 @@ class MessageListView(ListView):
     Контроллер для отображения всех сообщений
     """
     model = Message
+
+    def get_queryset(self):
+        """
+        Возвращает сообщения текущего пользователя
+        """
+        if self.request.user.is_superuser:
+            return Message.objects.all()
+        elif self.request.user.is_authenticated:
+            return Message.objects.filter(owner=self.request.user)
+        else:
+            return Message.objects.none()
 
 
 class MessageDetailView(LoginRequiredMixin, DetailView):
@@ -29,6 +40,16 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('message:message_view')
+
+    def form_valid(self, form):
+        """
+        Сохраняет сообщение в БД и привязывает его к текущему пользователю
+
+        """
+        message = form.save()
+        message.owner = self.request.user
+        message.save(update_fields=['owner'])
+        return super().form_valid(form)
 
 
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
@@ -57,6 +78,17 @@ class ClientListView(LoginRequiredMixin, ListView):
     """
     model = Client
 
+    def get_queryset(self):
+        """
+        Возвращает клиентов текущего пользователя
+        """
+        if self.request.user.is_superuser:
+            return Client.objects.all()
+        if self.request.user.is_authenticated:
+            return Client.objects.filter(owner=self.request.user)
+        else:
+            return None
+
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     """
@@ -73,8 +105,19 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     form_class = ClientForm
     success_url = reverse_lazy('message:client_view')
 
+    def form_valid(self, form):
+        """
+        Сохраняет клиента в БД и привязывает его к текущему пользователю
+
+        """
+        client = form.save()
+        client.owner = self.request.user
+        client.save(update_fields=['owner'])
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse('message:client_detail', kwargs={'pk': self.object.pk})
+
 
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
@@ -103,6 +146,12 @@ class MailingListListView(LoginRequiredMixin, ListView):
     """
     model = MailingList
 
+    def get_queryset(self):
+        """
+        Возвращает рассылки текущего пользователя
+        """
+        return MailingList.objects.filter(owner=self.request.user)
+
 
 class MailingListCreateView(LoginRequiredMixin, CreateView):
     """
@@ -116,12 +165,15 @@ class MailingListCreateView(LoginRequiredMixin, CreateView):
         Обновляет дату следующей отправки при сохранении изменений
         """
         mailing = form.save()
+        mailing.owner = self.request.user
         mailing.next_date = mailing.date_and_time_of_sending
-        mailing.save(update_fields=['next_date'])
+        mailing.save(update_fields=['next_date', 'owner'])
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('message:mailinglist_detail', kwargs={'pk': self.object.pk})
+
+
 
 
 class MailingListDetailView(LoginRequiredMixin, DetailView):

@@ -28,8 +28,6 @@
                     <p> {{ object.last_name }}</p>
                     <a href="{% url 'users:user_update' user.pk %}" type="button"
                        class="btn btn-lg btn-block btn-outline-primary">Редактировать</a>
-                    <a href="{% url 'users:user_delete' user.pk %}" type="button"
-                       class="btn btn-lg btn-block btn-outline-danger">Удалить</a>
                     <a href="{% url 'message:message_view' %}" type="button"
                        class="btn btn-lg btn-block btn-outline-primary">Назад</a>
 

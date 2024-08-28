@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from users.models import User
+
 
 class Message(models.Model):
     """
@@ -14,6 +16,13 @@ class Message(models.Model):
         verbose_name="Сообщение",
         null=True,
         blank=True
+    )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Создатель сообщения",
+        blank=True,
+        null=True,
     )
 
     class Meta:
@@ -42,6 +51,13 @@ class Client(models.Model):
         verbose_name="Комментарий",
         null=True,
         blank=True
+    )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Создатель клиента",
+        blank=True,
+        null=True,
     )
 
     class Meta:
@@ -98,6 +114,13 @@ class MailingList(models.Model):
         verbose_name="Дата и время следующей отправки отправки",
         null=True,
         blank=True,
+    )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Создатель рассылки",
+        blank=True,
+        null=True,
     )
 
     class Meta:

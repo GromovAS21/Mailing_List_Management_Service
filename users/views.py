@@ -61,11 +61,3 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('users:user_detail', kwargs={'pk': self.object.pk})
-
-
-class UserDeleteView(LoginRequiredMixin, DeleteView):
-    """
-    Удаление пользователя
-    """
-    model = User
-    success_url = reverse_lazy('message:message_list')

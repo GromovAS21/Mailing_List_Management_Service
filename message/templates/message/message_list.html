@@ -1,25 +1,34 @@
 {% extends 'message/base.html' %}
 {% block content %}
+{% if user.is_authenticated %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Cообщения для рассылки</h1>
 </div>
+{% endif %}
 
 <div class="container">
     <div class="row text-center">
         <p>
+            {% if user.is_authenticated %}
             <a class="btn btn-lg btn-block btn-outline-warning"
                href="{% url 'message:message_create' %}"
                role="button">Новое сообщение</a>
+            {% endif %}
         </p>
-
         <div class="row">
-            {% if not object_list %}
+            {% if not user.is_authenticated %}
             <div class="col-12">
                 <h1 class="text-body-secondary">
-                Сообщения пока не созданы
+                    НАЧНИ СПАМИТЬ СВОИМ КЛИЕНТАМ СКОЛЬКО ТЕБЕ ЗАХОЧЕТСЯ!
                 </h1>
             </div>
-            {% endif %}
+            {% elif user.is_authenticated and not object_list %}
+            <div class="col-12">
+                <h1 class="text-body-secondary">
+                    Сообщения пока не созданы
+                </h1>
+            </div>
+            {% else %}
             {% for message in object_list %}
             <div class="col-6">
                 <div class="card mb-4 box-shadow">
@@ -39,9 +48,8 @@
                     </div>
                 </div>
             </div>
-
             {% endfor %}
+            {% endif %}
         </div>
-
     </div>
     {% endblock %}
