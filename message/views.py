@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from message.forms import MessageForm, ClientForm, MailingListForm
+from message.forms import MessageForm, ClientForm, MailingListForm, MailingUpdateForm
 from message.models import Message, Client, MailingList
-from message.services import periodicity_sending
+
 
 
 # Create your views here.
@@ -146,7 +146,7 @@ class MailingListUpdateView(UpdateView):
     Контроллер для создания новой рассылки
     """
     model = MailingList
-    form_class = MailingListForm
+    form_class = MailingUpdateForm
 
     def form_valid(self, form):
         """
@@ -181,3 +181,18 @@ def toggle_status(request, pk):
         mailing.status = 'Запущена'
     mailing.save(update_fields=['status',])
     return redirect(reverse('message:mailinglist_view'))
+
+
+def AttemptListView(request, pk):
+    """
+    Контроллер для отображения всех попыток отправки рассылки
+    """
+    mailing = get_object_or_404(MailingList, pk=pk)
+    attempts = mailing.attempts.all()
+    numbers = [number for number in range(1,len(attempts) + 1)]
+    context = {
+        'attempts': attempts,
+        'mailing': mailing,
+        'numbers': numbers
+    }
+    return render(request,'message/attempt_list.html', context)

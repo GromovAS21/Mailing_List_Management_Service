@@ -71,3 +71,23 @@ class MailingListForm(StyleFormMixin, ModelForm):
         new_message = self.cleaned_data['message']
         if MailingList.objects.filter(message=new_message.pk).exists():
             raise ValidationError('Рассылка с этим сообщением уже имеется')
+        return new_message
+
+
+class MailingUpdateForm(StyleFormMixin, ModelForm):
+    """
+    Форма для редактирования рассылки сообщения
+    """
+    class Meta:
+        model = MailingList
+        fields = ('message', 'clients', 'date_and_time_of_sending', 'periodicity',)
+
+    def clean_date_and_time_of_sending(self):
+        """
+        Проверяет, что дата и время рассылки не меньше текущего.
+        """
+        date_and_time = self.cleaned_data['date_and_time_of_sending']
+        if date_and_time.timestamp() < datetime.now().timestamp():
+            raise ValidationError('Выбранная дата и время меньше текущего')
+        return date_and_time
+
