@@ -21,6 +21,9 @@
                 <h1 class="text-body-secondary">
                     НАЧНИ СПАМИТЬ СВОИМ КЛИЕНТАМ СКОЛЬКО ТЕБЕ ЗАХОЧЕТСЯ!
                 </h1>
+                <br>
+                 <a class="p-2 btn btn-success" href="{% url 'users:login' %}">Вход</a>
+            <a class="p-2 btn btn-success" href="{% url 'users:register' %}">Регистрация</a>
             </div>
             {% elif user.is_authenticated and not object_list %}
             <div class="col-12">

@@ -86,8 +86,6 @@ class ClientListView(LoginRequiredMixin, ListView):
             return Client.objects.all()
         if self.request.user.is_authenticated:
             return Client.objects.filter(owner=self.request.user)
-        else:
-            return None
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
@@ -150,7 +148,10 @@ class MailingListListView(LoginRequiredMixin, ListView):
         """
         Возвращает рассылки текущего пользователя
         """
-        return MailingList.objects.filter(owner=self.request.user)
+        if self.request.user.is_superuser:
+            return MailingList.objects.all()
+        elif self.request.user.is_authenticated:
+            return MailingList.objects.filter(owner=self.request.user)
 
 
 class MailingListCreateView(LoginRequiredMixin, CreateView):

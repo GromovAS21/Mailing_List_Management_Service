@@ -13,14 +13,8 @@
             <a class="p-2 btn btn-outline-dark" href="/">Сообщения</a>
             <a class="p-2 btn btn-outline-dark" href="{% url 'message:mailinglist_view' %}">Рассылки</a>
             <a class="p-2 btn btn-outline-dark" href="{% url 'message:client_view' %}">Клиенты</a>
-            {% endif %}
-            {% if user.is_authenticated %}
             <a class="p-2 btn btn-outline-dark" href="{% url 'users:user_detail' user.pk %}">Профиль</a>
             <a class="p-2 btn btn-danger" style="float: right;" href="{% url 'users:logout' %}">Выход</a>
-            {% else %}
-            <a class="p-2 btn btn-success " style="float: right; margin-left:5px;" href="{% url 'users:login' %}">Вход</a>
-            <a class="p-2 btn btn-success" style="float: right;" href="{% url 'users:register' %}">Регистрация</a>
-
             {% endif %}
         </nav>
     </div>
