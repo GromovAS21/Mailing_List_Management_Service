@@ -1,6 +1,6 @@
 import secrets
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
@@ -110,6 +110,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 @login_required
+@permission_required('users.can_edit_is_active')
 def toggle_is_active(request, pk):
     """
     Включает/выключает активность пользователя

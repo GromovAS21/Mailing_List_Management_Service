@@ -1,13 +1,14 @@
 import random
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.models import Blog
-from message.forms import MessageForm, ClientForm, MailingListForm, MailingUpdateForm
+from message.forms import MessageForm, ClientForm, MailingListForm, MailingListModeratorForm
 from message.models import Message, Client, MailingList
 
 
@@ -29,14 +30,23 @@ class MessageListView(ListView):
             return Message.objects.none()
 
 
-class MessageDetailView(LoginRequiredMixin, DetailView):
+class MessageDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     """
     Контроллер для отображения конкретного сообщения
     """
     model = Message
 
+    def test_func(self):
+        """
+        Проверяет, может ли текущий пользователь просматривать сообщение
+        """
+        message = self.get_object()
+        user = self.request.user
+        if user.is_superuser or user == message.owner:
+            return True
 
-class MessageCreateView(LoginRequiredMixin, CreateView):
+
+class MessageCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """
     Контроллер для создания нового сообщения
     """
@@ -54,6 +64,14 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
         message.save(update_fields=['owner'])
         return super().form_valid(form)
 
+    def test_func(self):
+        """
+        Проверяет, может ли текущий пользователь создать сообщение
+        """
+        user = self.request.user
+        if user.is_superuser or user.is_authenticated and not user.is_staff:
+            return True
+
 
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
     """
@@ -66,13 +84,31 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('message:message_detail', kwargs={'pk': self.object.pk})
 
+    def get_form_class(self):
+        """
+        Отображает форму редактирования в зависимости от текущего пользователя
+        """
+        user = self.request.user
+        if self.object.owner == user or user.is_superuser:
+            return MessageForm
+        raise PermissionDenied
 
-class MessageDeleteView(LoginRequiredMixin, DeleteView):
+
+class MessageDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """
     Контроллер для удаления сообщения
     """
     model = Message
     success_url = reverse_lazy('message:message_view')
+
+    def test_func(self):
+        """
+        Проверяет, может ли текущий пользователь удалить конкретное сообщение
+        """
+        message = self.get_object()
+        user = self.request.user
+        if user.is_superuser or user == message.owner:
+            return True
 
 
 class ClientListView(LoginRequiredMixin, ListView):
@@ -89,16 +125,27 @@ class ClientListView(LoginRequiredMixin, ListView):
             return Client.objects.all()
         if self.request.user.is_authenticated:
             return Client.objects.filter(owner=self.request.user)
+        else:
+            return Client.objects.none()
 
 
-class ClientDetailView(LoginRequiredMixin, DetailView):
+class ClientDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     """
     Контроллер для отображения конкретного клиента
     """
     model = Client
 
+    def test_func(self):
+        """
+        Проверяет, может ли текущий пользователь просматривать конкретного клиента
+        """
+        client = self.get_object()
+        user = self.request.user
+        if user.is_superuser or user == client.owner:
+            return True
 
-class ClientCreateView(LoginRequiredMixin, CreateView):
+
+class ClientCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """
     Контроллер для создания нового клиента
     """
@@ -119,6 +166,15 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('message:client_detail', kwargs={'pk': self.object.pk})
 
+    def test_func(self):
+        """
+        Проверяет, может ли текущий пользователь создавать клиентов
+        """
+        user = self.request.user
+        if user.is_superuser or user.is_authenticated and not user.is_staff:
+            return True
+
+
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     """
@@ -131,13 +187,31 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('message:client_detail', kwargs={'pk': self.object.pk})
 
+    def get_form_class(self):
+        """
+        Отображает форму редактирования в зависимости от текущего пользователя
+        """
+        user = self.request.user
+        if self.object.owner == user or user.is_superuser:
+            return ClientForm
+        raise PermissionDenied
 
-class ClientDeleteView(LoginRequiredMixin, DeleteView):
+
+class ClientDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """
     Контроллер для удаления клиента
     """
     model = Client
     success_url = reverse_lazy('message:client_view')
+
+    def test_func(self):
+        """
+        Проверяет, может ли текущий пользователь удалять конкретного клиента
+        """
+        client = self.get_object()
+        user = self.request.user
+        if user.is_superuser or user == client.owner:
+            return True
 
 
 class MailingListListView(LoginRequiredMixin, ListView):
@@ -156,7 +230,7 @@ class MailingListListView(LoginRequiredMixin, ListView):
             return MailingList.objects.filter(owner=self.request.user)
 
 
-class MailingListCreateView(LoginRequiredMixin, CreateView):
+class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """
     Контроллер для создания новой рассылки
     """
@@ -181,14 +255,16 @@ class MailingListCreateView(LoginRequiredMixin, CreateView):
         mailing.save(update_fields=['next_date', 'owner'])
         return super().form_valid(form)
 
-
-
-
-
     def get_success_url(self):
         return reverse('message:mailinglist_detail', kwargs={'pk': self.object.pk})
 
-
+    def test_func(self):
+        """
+        Проверяет, может ли текущий пользователь создавать рассылки
+        """
+        user = self.request.user
+        if user.is_superuser or user.is_authenticated and not user.is_staff:
+            return True
 
 
 class MailingListDetailView(LoginRequiredMixin, DetailView):
@@ -211,7 +287,7 @@ class MailingListUpdateView(LoginRequiredMixin, UpdateView):
     Контроллер для создания новой рассылки
     """
     model = MailingList
-    form_class = MailingUpdateForm
+    form_class = MailingListForm
 
     def form_valid(self, form):
         """
@@ -226,13 +302,33 @@ class MailingListUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('message:mailinglist_detail', kwargs={'pk': self.object.pk})
 
+    def get_form_class(self):
+        """
+        Отображает форму удаления в зависимости от текущего пользователя
+        """
+        user = self.request.user
+        if self.object.owner == user or user.is_superuser:
+            return MailingListForm
+        elif user.has_perm('message.can_edit_status'):
+            return MailingListModeratorForm
 
-class MailingListDeleteView(LoginRequiredMixin, DeleteView):
+
+class MailingListDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """
     Контроллер для удаления рассылки
     """
     model = MailingList
     success_url = reverse_lazy('message:mailinglist_view')
+
+    def test_func(self):
+        """
+        Проверяет, может ли текущий пользователь удалять конкретную рассылку
+        """
+        user = self.request.user
+        mailing = self.get_object()
+        if user.is_superuser or user == mailing.owner:
+            return True
+        return PermissionDenied
 
 
 @login_required

@@ -1,13 +1,15 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import DetailView
 
 from blog.models import Blog
 
 
-class BlogDetailView(DetailView):
+class BlogDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Выводит детальную страницу публикации блога
     """
     model = Blog
+    permission_required = 'blog.view_blog'
 
     def get_object(self, queryset=None):
         """

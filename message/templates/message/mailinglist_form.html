@@ -25,12 +25,8 @@
                             Создать
                             {% endif %}
                         </button>
-                        {% if object %}
-                        <a class="btn btn-outline-primary" href="{% url 'message:mailinglist_detail' object.pk %}" role="button">Отмена</a>
-                        {% else %}
-                        <a class="btn btn-outline-primary" href="{% url 'message:mailinglist_view' %}"
+                        <a class="btn btn-outline-primary" onclick="history.back()"
                            role="button">Отмена</a>
-                        {% endif %}
                     </form>
                 </div>
             </div>

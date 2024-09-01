@@ -49,7 +49,7 @@ class ClientForm(StyleFormMixin, ModelForm):
 
 class MailingListForm(StyleFormMixin, ModelForm):
     """
-    Форма для создания рассылки сообщения
+    Форма для создания и изменения рассылки сообщения
     """
     # def __init__(self, *args, **kwargs):
     #     super(MailingListForm, self).__init__(*args, **kwargs)
@@ -60,21 +60,6 @@ class MailingListForm(StyleFormMixin, ModelForm):
         model = MailingList
         fields = ('message', 'clients', 'date_and_time_of_sending', 'periodicity',)
 
-
-class MailingListFromMessageForm(StyleFormMixin, ModelForm):
-    """
-    Форма для создания рассылки из меню "Сообщения"
-    """
-
-    def clean_date_and_time_of_sending(self):
-        """
-        Проверяет, что дата и время рассылки не меньше текущего.
-        """
-        date_and_time = self.cleaned_data['date_and_time_of_sending']
-        if date_and_time.timestamp() < datetime.now().timestamp():
-            raise ValidationError('Выбранная дата и время меньше текущего')
-        return date_and_time
-
     def clean_message(self):
         """
         Проверяет наличие уже имеющейся рассылки с таким сообщением
@@ -84,15 +69,6 @@ class MailingListFromMessageForm(StyleFormMixin, ModelForm):
             raise ValidationError('Рассылка с этим сообщением уже имеется')
         return new_message
 
-
-class MailingUpdateForm(StyleFormMixin, ModelForm):
-    """
-    Форма для редактирования рассылки сообщения
-    """
-    class Meta:
-        model = MailingList
-        fields = ('message', 'clients', 'date_and_time_of_sending', 'periodicity',)
-
     def clean_date_and_time_of_sending(self):
         """
         Проверяет, что дата и время рассылки не меньше текущего.
@@ -102,3 +78,11 @@ class MailingUpdateForm(StyleFormMixin, ModelForm):
             raise ValidationError('Выбранная дата и время меньше текущего')
         return date_and_time
 
+
+class MailingListModeratorForm(StyleFormMixin, ModelForm):
+    """
+    Форма для создания рассылки сообщения
+    """
+    class Meta:
+        model = MailingList
+        fields = ('status',)

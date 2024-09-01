@@ -10,7 +10,7 @@ class User(AbstractUser):
 
     email = models.EmailField(
         unique=True,
-        verbose_name='Email'
+        verbose_name='Email',
     )
     avatar = models.ImageField(
         upload_to='users/',
