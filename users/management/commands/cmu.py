@@ -8,12 +8,12 @@ class Command(BaseCommand):
     Команда для создания профиля модератора
     """
     def handle(self, *args, **options):
-        moderator = User.objects.create(
+        user = User.objects.create(
             email='moderator@test.ru',
             first_name='Moderator',
             last_name='Moderatorov',
             is_staff=True
         )
-        moderator.set_password('Qwerty')
-        moderator.groups.add(1)
-        moderator.save()
+        user.set_password('Qwerty')
+        user.groups.add(1)
+        user.save()
