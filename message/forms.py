@@ -10,6 +10,7 @@ class StyleFormMixin:
     """
     Mixin для стилизации формы.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -25,6 +26,7 @@ class MessageForm(StyleFormMixin, ModelForm):
     """
     Форма для создания нового сообщения
     """
+
     class Meta:
         model = Message
         fields = ('title_letter', 'body_letter')
@@ -37,6 +39,7 @@ class ClientForm(StyleFormMixin, ModelForm):
     """
     Форма для создания нового клиента
     """
+
     class Meta:
         model = Client
         fields = ('name', 'email', 'comment')
@@ -51,6 +54,7 @@ class MailingListForm(StyleFormMixin, ModelForm):
     """
     Форма для создания и изменения рассылки сообщения
     """
+
     # def __init__(self, *args, **kwargs):
     #     super(MailingListForm, self).__init__(*args, **kwargs)
     #     self.fields['message'].queryset = Message.objects.filter()
@@ -79,10 +83,30 @@ class MailingListForm(StyleFormMixin, ModelForm):
         return date_and_time
 
 
+class MailingListUpdateForm(StyleFormMixin, ModelForm):
+    """
+    Форма для изменения рассылки сообщения
+    """
+
+    class Meta:
+        model = MailingList
+        fields = ('message', 'clients', 'date_and_time_of_sending', 'periodicity',)
+
+    def clean_date_and_time_of_sending(self):
+        """
+        Проверяет, что дата и время рассылки не меньше текущего.
+        """
+        date_and_time = self.cleaned_data['date_and_time_of_sending']
+        if date_and_time.timestamp() < datetime.now().timestamp():
+            raise ValidationError('Выбранная дата и время меньше текущего')
+        return date_and_time
+
+
 class MailingListModeratorForm(StyleFormMixin, ModelForm):
     """
     Форма для создания рассылки сообщения
     """
+
     class Meta:
         model = MailingList
         fields = ('status',)

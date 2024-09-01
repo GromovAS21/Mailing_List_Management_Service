@@ -8,7 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.models import Blog
-from message.forms import MessageForm, ClientForm, MailingListForm, MailingListModeratorForm
+from message.forms import MessageForm, ClientForm, MailingListForm, MailingListModeratorForm, MailingListUpdateForm
 from message.models import Message, Client, MailingList
 
 
@@ -287,7 +287,7 @@ class MailingListUpdateView(LoginRequiredMixin, UpdateView):
     Контроллер для создания новой рассылки
     """
     model = MailingList
-    form_class = MailingListForm
+    form_class = MailingListUpdateForm
 
     def form_valid(self, form):
         """
@@ -308,7 +308,7 @@ class MailingListUpdateView(LoginRequiredMixin, UpdateView):
         """
         user = self.request.user
         if self.object.owner == user or user.is_superuser:
-            return MailingListForm
+            return MailingListUpdateForm
         elif user.has_perm('message.can_edit_status'):
             return MailingListModeratorForm
 
