@@ -10,6 +10,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from blog.models import Blog
 from message.forms import MessageForm, ClientForm, MailingListForm, MailingListModeratorForm, MailingListUpdateForm
 from message.models import Message, Client, MailingList
+from message.services import get_total_mailings_active_from_cache, get_total_items_from_cache
 
 
 class MessageListView(ListView):
@@ -366,10 +367,10 @@ def HomePageView(request):
     Контроллер для главной страницы
     """
     template_name ='message/home_page.html'
-    total_mailings = MailingList.objects.all()
-    total_active_mailings = MailingList.objects.filter(status="Запущена")
-    total_clients = Client.objects.all()
-    blogs = Blog.objects.all()
+    total_mailings = get_total_items_from_cache('mailing', MailingList)
+    total_active_mailings = get_total_mailings_active_from_cache()
+    total_clients = get_total_items_from_cache('clients', Client)
+    blogs = get_total_items_from_cache('blogs', Blog)
     blogs_list =[]
     for blog in blogs:
         blogs_list.append(blog)
