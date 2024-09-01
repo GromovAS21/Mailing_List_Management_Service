@@ -21,3 +21,13 @@ class UserUpdateForm(StyleFormMixin, ModelForm):
     class Meta:
         model = User
         fields = ('email', 'avatar', 'first_name', 'last_name')
+
+
+class UserModeratorForm(StyleFormMixin, ModelForm):
+    """
+    Форма для редактирования профиля пользователя в режиме модератора
+    """
+    class Meta:
+        model = User
+        fields = ('is_active',)
+

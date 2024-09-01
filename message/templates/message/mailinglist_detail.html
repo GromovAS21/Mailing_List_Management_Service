@@ -32,18 +32,22 @@
                     {% if mailinglist.status == 'Запущена' %}
                     <a class="btn btn-danger" href="{% url 'message:toggle_status' mailinglist.pk %}"
                        role="button">Завершить</a>
-                    {% elif mailinglist.status == 'Создана' %}
+                    {% elif mailinglist.status == 'Создана' and not user.is_staff or user.is_superuser %}
                     <a class="btn btn-success" href="{% url 'message:toggle_status' mailinglist.pk %}"
                        role="button">Запустить</a>
-                    {% else %}
+                    {% elif mailinglist.status == 'Завершена' and not user.is_staff or user.is_superuser %}
                     <a class="btn btn-success" href="{% url 'message:mailinglist_update' mailinglist.pk %}"
                        role="button">Запустить заново</a>
                     {% endif %}
+
                     <a class="btn btn-primary" href="{% url 'message:attempt_list' mailinglist.pk %}" role="button">Отчет
                         по отправке
                     </a>
-                    <a class="btn btn-danger" href="{% url 'message:mailinglist_delete' mailinglist.pk %}" role="button">Удалить
+                    {% if not user.is_staff or user.is_superuser %}
+                    <a class="btn btn-danger" href="{% url 'message:mailinglist_delete' mailinglist.pk %}"
+                       role="button">Удалить
                         рассылку</a>
+                    {% endif %}
                     <br>
                     <br>
                     <a class="btn btn-outline-primary" href="{% url 'message:mailinglist_view' %}"

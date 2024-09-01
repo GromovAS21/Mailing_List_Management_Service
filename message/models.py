@@ -28,6 +28,7 @@ class Message(models.Model):
     class Meta:
         verbose_name = "Сообщение"
         verbose_name_plural = "Сообщения"
+        ordering = ('id',)
 
     def __str__(self):
         return self.title_letter
@@ -63,6 +64,7 @@ class Client(models.Model):
     class Meta:
         verbose_name = "Клиент"
         verbose_name_plural = "Клиенты"
+        ordering = ('id',)
 
     def __str__(self):
         return f'{self.name} ({self.email})'
@@ -126,6 +128,10 @@ class MailingList(models.Model):
     class Meta:
         verbose_name = "Рассылка"
         verbose_name_plural = "Рассылки"
+        permissions = [
+            ('can_edit_status', 'can_edit_status'),
+        ]
+        ordering = ('id', )
 
     def __str__(self):
         return f'Рассылка "{self.message}"'
@@ -165,6 +171,7 @@ class Attempt(models.Model):
     class Meta:
         verbose_name = "Попытка"
         verbose_name_plural = "Попытки"
+        ordering = ('id',)
 
     def __str__(self):
         return f"Попытка отправки письма N {self.pk}"

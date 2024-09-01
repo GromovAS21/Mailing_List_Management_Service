@@ -1,5 +1,6 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+import self
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
@@ -117,7 +118,6 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
         return reverse('message:client_detail', kwargs={'pk': self.object.pk})
 
 
-
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     """
     Контроллер для редактирования клиента
@@ -148,7 +148,7 @@ class MailingListListView(LoginRequiredMixin, ListView):
         """
         Возвращает рассылки текущего пользователя
         """
-        if self.request.user.is_superuser:
+        if self.request.user.is_superuser or self.request.user.is_staff:
             return MailingList.objects.all()
         elif self.request.user.is_authenticated:
             return MailingList.objects.filter(owner=self.request.user)
@@ -161,6 +161,14 @@ class MailingListCreateView(LoginRequiredMixin, CreateView):
     model = MailingList
     form_class = MailingListForm
 
+    def get_form_kwargs(self):
+        """
+        Добавляет исходные данные формы из GET-параметра
+        """
+        form_kwargs = super().get_form_kwargs()
+        form_kwargs['initial']['message'] = self.request.GET.get('id')
+        return form_kwargs
+
     def form_valid(self, form):
         """
         Обновляет дату следующей отправки при сохранении изменений
@@ -170,6 +178,10 @@ class MailingListCreateView(LoginRequiredMixin, CreateView):
         mailing.next_date = mailing.date_and_time_of_sending
         mailing.save(update_fields=['next_date', 'owner'])
         return super().form_valid(form)
+
+
+
+
 
     def get_success_url(self):
         return reverse('message:mailinglist_detail', kwargs={'pk': self.object.pk})

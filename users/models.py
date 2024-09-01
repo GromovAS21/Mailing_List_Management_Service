@@ -37,13 +37,16 @@ class User(AbstractUser):
         null=True
     )
 
-
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+        permissions = [
+            ('can_edit_is_active', 'can_edit_is_active'),
+        ]
+        ordering = ('id',)
 
     def __srt__(self):
         return self.email

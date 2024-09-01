@@ -51,9 +51,20 @@ class MailingListForm(StyleFormMixin, ModelForm):
     """
     Форма для создания рассылки сообщения
     """
+    # def __init__(self, *args, **kwargs):
+    #     super(MailingListForm, self).__init__(*args, **kwargs)
+    #     self.fields['message'].queryset = Message.objects.filter()
+    #     self.fields['clients'].queryset = Client.objects.filter()
+
     class Meta:
         model = MailingList
         fields = ('message', 'clients', 'date_and_time_of_sending', 'periodicity',)
+
+
+class MailingListFromMessageForm(StyleFormMixin, ModelForm):
+    """
+    Форма для создания рассылки из меню "Сообщения"
+    """
 
     def clean_date_and_time_of_sending(self):
         """

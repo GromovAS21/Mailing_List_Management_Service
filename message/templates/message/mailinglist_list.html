@@ -7,9 +7,11 @@
 <div class="container">
     <div class="row text-center">
         <p>
+            {% if user.is_authenticated and not user.is_staff or user.is_superuser %}
             <a class="btn btn-lg btn-block btn-outline-warning"
                href="{% url 'message:mailinglist_create' %}"
                role="button">Создать рассылку</a>
+            {% endif %}
         </p>
 
         <div class="row">
@@ -21,10 +23,9 @@
             </div>
             {% endif %}
             {% for mailinglist in object_list %}
-
             <div class="col-6">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
+                <div class="card mb-4 box-shadow" style="width: 600px; height: 140px">
+                    <div class="card-body" >
                         <div class="row">
                             <div class="col-7 d-flex align-items-center justify-content-center">
                                 <h4 class="my-0 font-weight-normal">
@@ -39,8 +40,6 @@
                                     {{ mailinglist }}
                                     {% endif %}
                                 </h4>
-
-
                             </div>
                             <div class="col-5">
                                 <div class="d-grid gap-2">
@@ -48,12 +47,12 @@
                                     <a class="btn btn-lg btn-block btn-outline-danger form-control"
                                        style="float: right;" href="{% url 'message:toggle_status' mailinglist.pk %}"
                                        role="button">Завершить</a>
-                                    {% elif mailinglist.status == 'Завершена' %}
+                                    {% elif mailinglist.status == 'Завершена' and not user.is_staff or user.is_superuser %}
                                     <a class="btn btn-lg btn-block btn-outline-success form-control"
                                        style="float: right;"
                                        href="{% url 'message:mailinglist_update' mailinglist.pk %}"
                                        role="button">Запустить заново</a>
-                                    {% else %}
+                                    {% elif mailinglist.status == 'Создана' and not user.is_staff or user.is_superuser %}
                                     <a class="btn btn-lg btn-block btn-outline-success form-control"
                                        style="float: right;" href="{% url 'message:toggle_status' mailinglist.pk %}"
                                        role="button">Запустить</a>
