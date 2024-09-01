@@ -4,12 +4,13 @@ from message.apps import MessageConfig
 from message.views import MessageListView, MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, \
     ClientListView, ClientDetailView, ClientCreateView, ClientUpdateView, ClientDeleteView, MailingListListView, \
     MailingListDetailView, MailingListCreateView, MailingListUpdateView, MailingListDeleteView, toggle_status, \
-    AttemptListView
+    AttemptListView, HomePageView
 
 app_name = MessageConfig.name
 
 urlpatterns = [
-    path('', MessageListView.as_view(), name='message_view'),
+    path('', HomePageView, name='home_page_view'),
+    path('messages/', MessageListView.as_view(), name='message_view'),
     path('message/<int:pk>', MessageDetailView.as_view(), name='message_detail'),
     path('message/create/', MessageCreateView.as_view(), name='message_create'),
     path('message/<int:pk>/update/', MessageUpdateView.as_view(), name='message_update'),

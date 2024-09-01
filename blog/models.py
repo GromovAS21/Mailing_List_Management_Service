@@ -20,8 +20,9 @@ class Blog(models.Model):
     count_view = models.PositiveIntegerField(
         verbose_name='Количество просмотров',
         default=0,
+        editable=False
     )
-    published_time = models.DateField(
+    published_date = models.DateField(
         auto_now_add=True,
         verbose_name='Дата публикации',
     )

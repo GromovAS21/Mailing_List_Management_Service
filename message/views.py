@@ -1,9 +1,12 @@
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+import random
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from blog.models import Blog
 from message.forms import MessageForm, ClientForm, MailingListForm, MailingUpdateForm
 from message.models import Message, Client, MailingList
 
@@ -260,3 +263,27 @@ def AttemptListView(request, pk):
         'numbers': numbers
     }
     return render(request,'message/attempt_list.html', context)
+
+
+def HomePageView(request):
+    """
+    Контроллер для главной страницы
+    """
+    template_name ='message/home_page.html'
+    total_mailings = MailingList.objects.all()
+    total_active_mailings = MailingList.objects.filter(status="Запущена")
+    total_clients = Client.objects.all()
+    blogs = Blog.objects.all()
+    blogs_list =[]
+    for blog in blogs:
+        blogs_list.append(blog)
+    random.shuffle(blogs_list)
+
+    context = {
+        'total_mailings': len(total_mailings),
+        'total_active_mailings': len(total_active_mailings),
+        'total_clients': len(total_clients),
+        'blogs': blogs_list[:3]
+    }
+    return render(request, template_name, context)
+
