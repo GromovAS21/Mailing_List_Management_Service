@@ -243,6 +243,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         """
         form_kwargs = super().get_form_kwargs()
         form_kwargs['initial']['message'] = self.request.GET.get('id')
+        form_kwargs['user'] = self.request.user
         return form_kwargs
 
     def form_valid(self, form):

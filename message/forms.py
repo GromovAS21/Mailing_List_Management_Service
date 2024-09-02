@@ -55,10 +55,12 @@ class MailingListForm(StyleFormMixin, ModelForm):
     Форма для создания и изменения рассылки сообщения
     """
 
-    # def __init__(self, *args, **kwargs):
-    #     super(MailingListForm, self).__init__(*args, **kwargs)
-    #     self.fields['message'].queryset = Message.objects.filter()
-    #     self.fields['clients'].queryset = Client.objects.filter()
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(MailingListForm, self).__init__(*args, **kwargs)
+        if not user.is_superuser:
+            self.fields['message'].queryset = Message.objects.filter(owner=user)
+            self.fields['clients'].queryset = Client.objects.filter(owner=user)
 
     class Meta:
         model = MailingList
