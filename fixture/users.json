@@ -1,0 +1,142 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$2qfMaGPtDjpQ0ymmq5Ljip$pRPU8F3JTNTklV+Qdi5S63m3mHSCd1w83W9IbOxTyB8=",
+      "last_login": "2024-09-01T18:41:42.981Z",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-08-27T10:15:11.247Z",
+      "email": "admin@test.ru",
+      "avatar": "",
+      "token": null,
+      "first_name": "Антон",
+      "last_name": "Громов",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$IBvpAI1l7GlU8BC0AdNWxM$+pR0G9Grwfyv/rJC4OCpsEUKO6DAtXVfSQ/FC8CYBmA=",
+      "last_login": "2024-09-01T16:21:47.502Z",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-08-30T13:39:45.958Z",
+      "email": "test1@test.ru",
+      "avatar": "",
+      "token": null,
+      "first_name": "test1",
+      "last_name": "testov1",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$UhrJQAxJ9gk3HznbLP39dH$WyJOm/FjJDj91tL694OySOSqvs1EJ49XGOJmOgoOL+A=",
+      "last_login": "2024-08-31T08:03:18.745Z",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-08-30T13:39:46.148Z",
+      "email": "test2@test.ru",
+      "avatar": "",
+      "token": null,
+      "first_name": "test1",
+      "last_name": "testov1",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$JfGxKJWEccQlgYi1b9WiBU$BGgMynZ+LWvsErABvC0wcCSPN6JpLD5JWW2GTbWTZVg=",
+      "last_login": "2024-08-31T09:40:39.478Z",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-08-30T13:39:46.337Z",
+      "email": "test3@test.ru",
+      "avatar": "",
+      "token": null,
+      "first_name": null,
+      "last_name": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 9,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$XxooVZyt9sHr9ssPTMml5L$WRFJTFRf7pz5925Ta0G6nrQlznxjNMmLETnS4fZcJPM=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2024-08-30T13:39:46.526Z",
+      "email": "test4@test.ru",
+      "avatar": "",
+      "token": null,
+      "first_name": null,
+      "last_name": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 19,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$ngiFe1RTY3t7TNrYI5sOoJ$LAk/edwISDOXtHHsHn57rjrp835UEp5DP8jd5hTHHrI=",
+      "last_login": "2024-09-01T18:29:15.805Z",
+      "is_superuser": false,
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-08-31T08:33:22.852Z",
+      "email": "moderator@test.ru",
+      "avatar": "",
+      "token": null,
+      "first_name": null,
+      "last_name": null,
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 27,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$iXa72EDmjCq8hk0AB1BXjO$bRpzturSrebCu30Vcng53LiptlXIbeNyw4VbT/HAgLc=",
+      "last_login": "2024-09-01T16:29:09.283Z",
+      "is_superuser": false,
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-09-01T09:31:05.717Z",
+      "email": "blog-manager@test.ru",
+      "avatar": "",
+      "token": null,
+      "first_name": "Blog",
+      "last_name": "Blogov",
+      "groups": [],
+      "user_permissions": [
+        45,
+        46,
+        47,
+        48
+      ]
+    }
+  }
+]
