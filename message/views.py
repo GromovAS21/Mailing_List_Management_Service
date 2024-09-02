@@ -176,7 +176,6 @@ class ClientCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return True
 
 
-
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     """
     Контроллер для редактирования клиента
