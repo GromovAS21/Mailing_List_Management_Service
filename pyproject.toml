@@ -8,9 +8,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 black = "^24.4.2"
-django = "^5.0.7"
 psycopg2-binary = "^2.9.9"
 pillow = "^10.4.0"
+django = "4.2.2"
+python-dotenv = "^1.0.1"
+django-crontab = "^0.7.1"
+ipython = "^8.26.0"
+redis = "^5.0.8"
 
 
 [build-system]

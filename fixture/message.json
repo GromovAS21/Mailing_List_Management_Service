@@ -1,0 +1,374 @@
+[
+  {
+    "model": "message.message",
+    "pk": 11,
+    "fields": {
+      "title_letter": "message1-test1",
+      "body_letter": "TEST1",
+      "owner": 6
+    }
+  },
+  {
+    "model": "message.message",
+    "pk": 12,
+    "fields": {
+      "title_letter": "message2-test1",
+      "body_letter": "",
+      "owner": 6
+    }
+  },
+  {
+    "model": "message.message",
+    "pk": 13,
+    "fields": {
+      "title_letter": "message1-admin",
+      "body_letter": "",
+      "owner": 1
+    }
+  },
+  {
+    "model": "message.message",
+    "pk": 14,
+    "fields": {
+      "title_letter": "message1-test2",
+      "body_letter": "TEST2",
+      "owner": 7
+    }
+  },
+  {
+    "model": "message.message",
+    "pk": 16,
+    "fields": {
+      "title_letter": "message1-test3",
+      "body_letter": "TEST3",
+      "owner": 8
+    }
+  },
+  {
+    "model": "message.client",
+    "pk": 3,
+    "fields": {
+      "name": "client1-admin",
+      "email": "email1-admin@test.ru",
+      "comment": "Обращаться с опаской.",
+      "owner": 1
+    }
+  },
+  {
+    "model": "message.client",
+    "pk": 10,
+    "fields": {
+      "name": "client1-test1",
+      "email": "email1-test1@test.ru",
+      "comment": "text1",
+      "owner": 6
+    }
+  },
+  {
+    "model": "message.client",
+    "pk": 11,
+    "fields": {
+      "name": "client2-test1",
+      "email": "email2-test1@test.ru",
+      "comment": "text1",
+      "owner": 6
+    }
+  },
+  {
+    "model": "message.client",
+    "pk": 12,
+    "fields": {
+      "name": "client1-test2",
+      "email": "email1-test2@test.ru",
+      "comment": "text2",
+      "owner": 7
+    }
+  },
+  {
+    "model": "message.client",
+    "pk": 13,
+    "fields": {
+      "name": "client2-test2",
+      "email": "email2-test2@test.ru",
+      "comment": "text2",
+      "owner": 7
+    }
+  },
+  {
+    "model": "message.client",
+    "pk": 14,
+    "fields": {
+      "name": "client1-test3",
+      "email": "email1-test3@test.ru",
+      "comment": "text3",
+      "owner": 8
+    }
+  },
+  {
+    "model": "message.mailinglist",
+    "pk": 31,
+    "fields": {
+      "date_and_time_of_sending": "2024-09-02T08:03:00Z",
+      "message": 13,
+      "periodicity": "Раз в день",
+      "status": "Завершена",
+      "next_date": "2024-09-02T08:03:00Z",
+      "owner": 1,
+      "clients": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "message.mailinglist",
+    "pk": 32,
+    "fields": {
+      "date_and_time_of_sending": "2024-08-31T08:05:00Z",
+      "message": 11,
+      "periodicity": "Раз в неделю",
+      "status": "Завершена",
+      "next_date": "2024-08-31T08:15:00Z",
+      "owner": 6,
+      "clients": [
+        10,
+        11
+      ]
+    }
+  },
+  {
+    "model": "message.mailinglist",
+    "pk": 34,
+    "fields": {
+      "date_and_time_of_sending": "2024-09-05T08:08:00Z",
+      "message": 14,
+      "periodicity": "Раз в день",
+      "status": "Запущена",
+      "next_date": "2024-09-05T08:08:00Z",
+      "owner": 7,
+      "clients": [
+        12
+      ]
+    }
+  },
+  {
+    "model": "message.mailinglist",
+    "pk": 36,
+    "fields": {
+      "date_and_time_of_sending": "2024-09-02T10:41:51Z",
+      "message": 16,
+      "periodicity": "Раз в неделю",
+      "status": "Запущена",
+      "next_date": "2024-09-02T10:41:51Z",
+      "owner": 8,
+      "clients": [
+        14
+      ]
+    }
+  },
+  {
+    "model": "message.mailinglist",
+    "pk": 38,
+    "fields": {
+      "date_and_time_of_sending": "2024-09-01T16:28:30Z",
+      "message": 12,
+      "periodicity": "Раз в день",
+      "status": "Создана",
+      "next_date": "2024-09-01T16:28:30Z",
+      "owner": 6,
+      "clients": [
+        10,
+        11
+      ]
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 77,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:03:02.436Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 78,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:04:02.221Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 79,
+    "fields": {
+      "mailing_list": 32,
+      "date_time_last_attempt": "2024-08-31T08:05:01.912Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 81,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:05:03.099Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 83,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:06:02.188Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 85,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:07:02.748Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 87,
+    "fields": {
+      "mailing_list": 34,
+      "date_time_last_attempt": "2024-08-31T08:08:02.244Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 89,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:08:03.471Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 90,
+    "fields": {
+      "mailing_list": 34,
+      "date_time_last_attempt": "2024-08-31T08:09:02.026Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 92,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:09:03.271Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 93,
+    "fields": {
+      "mailing_list": 32,
+      "date_time_last_attempt": "2024-08-31T08:10:01.870Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 94,
+    "fields": {
+      "mailing_list": 34,
+      "date_time_last_attempt": "2024-08-31T08:10:02.664Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 96,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:10:03.895Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 97,
+    "fields": {
+      "mailing_list": 34,
+      "date_time_last_attempt": "2024-08-31T08:11:01.623Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 99,
+    "fields": {
+      "mailing_list": 31,
+      "date_time_last_attempt": "2024-08-31T08:11:03.104Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 100,
+    "fields": {
+      "mailing_list": 34,
+      "date_time_last_attempt": "2024-08-31T08:12:01.861Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 103,
+    "fields": {
+      "mailing_list": 34,
+      "date_time_last_attempt": "2024-08-31T08:13:01.662Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 105,
+    "fields": {
+      "mailing_list": 34,
+      "date_time_last_attempt": "2024-08-31T08:14:01.895Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  },
+  {
+    "model": "message.attempt",
+    "pk": 191,
+    "fields": {
+      "mailing_list": 36,
+      "date_time_last_attempt": "2024-08-31T11:49:36.821Z",
+      "status": "Успешно",
+      "mail_server_response": "Доставлено"
+    }
+  }
+]

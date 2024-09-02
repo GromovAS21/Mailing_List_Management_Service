@@ -1,0 +1,57 @@
+[
+  {
+    "model": "blog.blog",
+    "pk": 1,
+    "fields": {
+      "tittle": "Статья 1",
+      "content_article": "Текст статьи 1",
+      "images": "",
+      "count_view": 1,
+      "published_date": "2024-09-01"
+    }
+  },
+  {
+    "model": "blog.blog",
+    "pk": 2,
+    "fields": {
+      "tittle": "Статья 2",
+      "content_article": "Текст статьи 2",
+      "images": "",
+      "count_view": 9,
+      "published_date": "2024-09-01"
+    }
+  },
+  {
+    "model": "blog.blog",
+    "pk": 3,
+    "fields": {
+      "tittle": "Статья 3",
+      "content_article": "Текст статьи 3",
+      "images": "",
+      "count_view": 3,
+      "published_date": "2024-09-01"
+    }
+  },
+  {
+    "model": "blog.blog",
+    "pk": 4,
+    "fields": {
+      "tittle": "Статья 4",
+      "content_article": "Текст статьи 4",
+      "images": "",
+      "count_view": 8,
+      "published_date": "2024-09-01"
+    }
+  },
+  {
+    "model": "blog.blog",
+    "pk": 5,
+    "fields": {
+      "tittle": "Статья 5",
+      "content_article": "Текст статьи 5",
+      "images": "",
+      "count_view": 21,
+      "published_date": "2024-09-01"
+    }
+  }
+]
