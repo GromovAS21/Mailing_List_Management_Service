@@ -23,15 +23,10 @@ def sending_a_message(item: MailingList):
             fail_silently=False,
         )
     except SMTPException as message:
-        Attempt.objects.create(
-            mailing_list=item,
-            mail_server_response=f"{message}"
-        )
+        Attempt.objects.create(mailing_list=item, mail_server_response=f"{message}")
     else:
         Attempt.objects.create(
-            mailing_list=item,
-            status='Успешно',
-            mail_server_response="Доставлено"
+            mailing_list=item, status="Успешно", mail_server_response="Доставлено"
         )
 
 
@@ -41,15 +36,15 @@ def periodicity_sending():
     """
     mailing_list = MailingList.objects.filter(next_date__lte=datetime.now())
     for mailing in mailing_list:
-        if mailing.status == 'Запущена':
+        if mailing.status == "Запущена":
             sending_a_message(mailing)
-            if mailing.periodicity == 'Раз в день':
+            if mailing.periodicity == "Раз в день":
                 mailing.next_date = mailing.next_date + timedelta(days=1)
-            if mailing.periodicity == 'Раз в неделю':
+            if mailing.periodicity == "Раз в неделю":
                 mailing.next_date = mailing.next_date + timedelta(days=7)
-            if mailing.periodicity == 'Раз в месяц':
+            if mailing.periodicity == "Раз в месяц":
                 mailing.next_date = mailing.next_date + timedelta(days=30)
-            mailing.save(update_fields=['next_date'])
+            mailing.save(update_fields=["next_date"])
 
 
 def get_total_items_from_cache(key_name: str, model_name):
@@ -73,7 +68,7 @@ def get_total_mailings_active_from_cache():
     Получение всех активных рассылок, если в кеше нет, то получение через БД
     """
     if settings.CACHE_ENABLED:
-        key = 'mailing_active'
+        key = "mailing_active"
         mailing_active_list = cache.get(key)
         if mailing_active_list is None:
             mailing_active_list = MailingList.objects.filter(status="Запущена")
@@ -82,4 +77,3 @@ def get_total_mailings_active_from_cache():
         mailing_active_list = MailingList.objects.filter(status="Запущена")
 
     return mailing_active_list
-

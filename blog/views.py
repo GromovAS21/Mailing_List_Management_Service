@@ -8,8 +8,9 @@ class BlogDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Выводит детальную страницу публикации блога
     """
+
     model = Blog
-    permission_required = 'blog.view_blog'
+    permission_required = "blog.view_blog"
 
     def get_object(self, queryset=None):
         """
@@ -17,5 +18,5 @@ class BlogDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
         """
         self.object = super().get_object(queryset)
         self.object.count_view += 1
-        self.object.save(update_fields=['count_view'])
+        self.object.save(update_fields=["count_view"])
         return self.object
